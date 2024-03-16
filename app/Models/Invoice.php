@@ -13,4 +13,7 @@ class Invoice extends Model
  public function deteils(){
     return $this->hasMany(InvoiceDetails::class,'invoice_id');
  }
+ public function discountResult(){
+    return $this->discount_type == 'fixed' ? $this->discount_value : $this->discount_value.'%';
+ }
 }

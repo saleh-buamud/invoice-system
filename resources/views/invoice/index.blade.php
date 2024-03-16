@@ -27,7 +27,8 @@
                                 <td>{{ $invoice->invoice_date }}</td>
                                 <td>{{ $invoice->total_due }}</td>
                                 <td>
-                                    <a href="{{route('invoice.show',$invoice->id)}}" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a href="{{route('invoice.edit',$invoice->id)}}" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
+                                      <a href="{{route('invoice.show',$invoice->id)}}" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i>Shoe</a>
                                    <form action="{{route('invoice.destroy',$invoice->id)}}" method="POST" id="delete-{{$invoice->id}}" style="display: inline-block">
                                         @csrf
                                         @method('DELETE')

@@ -1,12 +1,11 @@
-@extends('layouts.app')
-
-@section('show')
+@extends('layouts.print')
+@section('print')
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="card">
-                <div class="card-header ">
-                    <h2>invoice_number :{{ $invoice->invoice_number }}</h2> <br>
-                    <a href="{{ route('invoice.index') }}" class="btn btn-primary ml-auto"><i class="fa fa-home"></i>  back_to_invoice </a>
+                <div class="card-header d-flex">
+                    {{-- s --}}
+                    <h2>invoice_number : {{ $invoice->invoice_number}}</h2>
                 </div>
 
                 <div class="card-body">
@@ -48,11 +47,11 @@
                             <tbody>
                             @foreach($invoice->deteils as $item)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->product_name }}</td>
-                                <td>{{ $item->unitText() }}</td>
-                                <td>{{ $item->quantity }}</td>
-                                <td>{{ $item->unit_price }}</td>
+                                <td width="5%">{{ $loop->iteration }}</td>
+                                <td width="35%">{{ $item->product_name }}</td>
+                                <td width="10%">{{ $item->unitText() }}</td>
+                                <td width="10%">{{ $item->quantity }}</td>
+                                <td width="10%">{{ $item->unit_price }}</td>
                                 <td>{{ $item->row_sub_total }}</td>
                             </tr>
                             @endforeach
@@ -80,20 +79,12 @@
                             </tr>
                             <tr>
                                 <td colspan="3"></td>
-                                <th colspan="2">total_due'</th>
+                                <th colspan="2">total_due</th>
                                 <td>{{ $invoice->total_due }}</td>
                             </tr>
 
                             </tfoot>
                         </table>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <a href="{{route('invoice.print',$invoice->id)}}" class="btn btn-primary btn-sm ml-auto"><i class="fa fa-print"></i> print</a>
-                            <a href="#" class="btn btn-secondary btn-sm ml-auto"><i class="fa fa-file-pdf"></i>export_pdf</a>
-                            <a href="#" class="btn btn-success btn-sm ml-auto"><i class="fa fa-envelope"></i> send_to_email</a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -103,3 +94,8 @@
 
 @endsection
 
+@section('script')
+    <script>
+        window.print();
+    </script>
+@endsectionss

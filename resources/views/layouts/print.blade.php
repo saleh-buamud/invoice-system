@@ -76,12 +76,7 @@
         <main class="py-4">
             <div class="container">
            @include('flash')
-            @yield('index')
-            @yield('style')
-            @yield('create')
-            @yield('edit')
-            @yield('show')
-             @yield('print')
+            @yield('print')
             @yield('fallback')
 
             </div>

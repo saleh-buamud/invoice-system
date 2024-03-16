@@ -1,5 +1,8 @@
 <?php
 
+use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf;
+use Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider;
+
 return [
 
     /*
@@ -40,7 +43,6 @@ return [
     */
 
     'debug' => (bool) env('APP_DEBUG', false),
-
     /*
     |--------------------------------------------------------------------------
     | Application URL

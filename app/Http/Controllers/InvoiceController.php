@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
+
 
 class InvoiceController extends Controller
 {
@@ -82,18 +85,47 @@ class InvoiceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Invoice $invoice)
     {
-        return "edit";
+        $invoice = Invoice::findOrFail($invoice->id);
+        return view('invoice.edit',compact('invoice'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Invoice $invoice)
     {
-        //
-        return 'update';
+        $data['customer_name'] = $request->customer_name;
+        $data['customer_email'] = $request->customer_email;
+        $data['customer_mobile'] = $request->customer_mobile;
+        $data['company_name'] = $request->company_name;
+        $data['invoice_number'] = $request->invoice_number;
+        $data['invoice_date'] = $request->invoice_date;
+        $data['sub_total'] = $request->sub_total;
+        $data['discount_type'] = $request->discount_type;
+        $data['discount_value'] = $request->discount_value;
+        $data['vat_value'] = $request->vat_value;
+        $data['shipping'] = $request->shipping;
+        $data['total_due'] = $request->total_due;
+        $invoice->update($data);
+
+        $invoice->deteils()->delete();
+        $detelis_list = [];
+
+        for ($i = 0; $i < count($request->product_name); $i++) {
+            $details_list[$i]['product_name'] = $request->product_name[$i];
+            $details_list[$i]['unit'] = $request->unit[$i];
+            $details_list[$i]['quantity'] = $request->quantity[$i];
+            $details_list[$i]['unit_price'] = $request->unit_price[$i];
+            $details_list[$i]['row_sub_total'] = $request->row_sub_total[$i];
+        }
+        $details = $invoice->deteils()->createMany($details_list);
+   
+        return redirect()->route('invoice.index')->with([
+            'message' => '  Updated Successfully',
+            'alert-type' => 'success',
+        ]);
     }
 
     /**
@@ -106,5 +138,12 @@ class InvoiceController extends Controller
             'message' => 'Deleted Successfully',
             'alert-type' => 'warning',
         ]);
+    }
+    public function print(Invoice $invoice){
+
+        
+        $invoice=Invoice::findOrFail($invoice->id);
+         return view('invoice.print',compact('invoice'));
+        
     }
 }
